@@ -41,3 +41,40 @@
     background-color: hsla(0, 0%, 100%, 0.9) !important;
     backdrop-filter: saturate(200%) blur(25px);
   }
+  .profilepic{
+    width: 180px;
+    height: 180px;
+  
+    display: flex;
+    justify-content: center;
+    
+  }
+  .profileimg{
+    width: 180px;
+    height: 20opx;
+    object-fit: cover; 
+     border: 1px solid grey;
+     border-radius: 95px;
+   
+  }
+  .profile-area{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ 
+  }
+  .name{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .edit-prodile{
+    height: 30px;
+  
+    display: flex;
+    gap: 10px;
+ align-items: center;
+  }

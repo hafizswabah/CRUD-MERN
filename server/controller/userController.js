@@ -8,7 +8,7 @@ var salt = bcrypt.genSaltSync(10)
 export async function userSignup(req, res) {
     try {
         console.log(req.body);
-        if (req.body.name == '' || req.body.email == '' || req.body.password == '') {
+        if (req.body.name == '' || req.body.proffession == '' ||req.body.email == '' || req.body.password == '') {
             const message = "Fill the required details"
             res.json({ error: true, message })
         }
@@ -19,9 +19,10 @@ export async function userSignup(req, res) {
                 res.json({ error: true, message })
             } else {
                 const hashPassword = bcrypt.hashSync(req.body.password, salt);
-                const { name, email } = req.body
+                const { name, email,proffession } = req.body
                 const user = await userModel.create({
                     name: name,
+                    proffession: proffession,
                     email: email,
                     password: hashPassword
                 })
@@ -47,17 +48,21 @@ export async function userSignup(req, res) {
 export async function userLogin(req, res) {
 
     try {
+        if (req.body.email == '' || req.body.password == '') {
+            const message = "Fill the required details"
+            res.json({ error: true, message })
+        }
         console.log(req.body);
         const { email, password } = req.body
         const user = await userModel.findOne({ email })
         console.log(user);
 
         if (!user) {
-            return res.json({ error: true, message: "no user found" })
+            return res.json({ error: true, message: "No User found" })
         }
         const userValid = bcrypt.compareSync(password, user.password)
         if (!userValid) {
-            return res.json({ error: true, message: "wrong password" })
+            return res.json({ error: true, message: "Wrong Password" })
         }
         const token = jwt.sign(
             {
@@ -66,7 +71,6 @@ export async function userLogin(req, res) {
             "jwtsecretkey"
         )
         console.log(token)
-        // const exp= new Date()+ 1000*60;
         return res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -86,7 +90,7 @@ export async function checkuserLogin(req,res) {
         console.log(req.cookies);
         const token = req.cookies?.token
         if (!token) {
-            return res.json({ loggedIn: false, error: true, message: "no token" })
+            return res.json({ loggedIn: false, error: true, message: "No token" })
         }
 const verifiedjwt=jwt.verify(token,"jwtsecretkey")
 const user=await userModel.findById(verifiedjwt.id,{password:0})
@@ -110,3 +114,14 @@ export async function userLogout(req,res){
     }).json({message:"Logged out",error:false})
 }
 
+export async function editProfile(req,res){
+    try{
+await userModel.findByIdAndUpdate(req.body.id,{
+$set:{profile:req.file.filename}
+})
+return res.json({error:false})
+}
+catch(err){
+res.json({error:true,message:"error scnee"})
+}
+}

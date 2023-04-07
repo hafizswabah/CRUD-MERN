@@ -6,6 +6,9 @@ import Login from './pages/user/login/login';
 import Home from './pages/user/home/Home';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+
 
 function App() {
 
