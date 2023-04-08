@@ -1,5 +1,6 @@
 import express from 'express'
 const Router=express.Router()
+import { AdminLogin } from '../controller/adminController.js'
 // Router.get('/add',async(req,res)=>{
 //     await adminModel.create({
 //         email:"admin@gmail.com",
@@ -8,5 +9,5 @@ const Router=express.Router()
 //     res.json("admin Created Succesfully")
 //     })
 
-Router.post('/login')
+Router.post('/login',AdminLogin)
 export default Router
