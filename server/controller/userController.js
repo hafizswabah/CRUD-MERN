@@ -10,13 +10,13 @@ export async function userSignup(req, res) {
         console.log(req.body);
         if (req.body.name == '' || req.body.proffession == '' ||req.body.email == '' || req.body.password == '') {
             const message = "Fill the required details"
-            res.json({ error: true, message })
+           return res.json({ error: true, message })
         }
         else {
             const ExistingUser = await userModel.findOne({ email: req.body.email })
             if (ExistingUser) {
                 const message = "Already have an account"
-                res.json({ error: true, message })
+             return res.json({ error: true, message })
             } else {
                 const hashPassword = bcrypt.hashSync(req.body.password, salt);
                 const { name, email,proffession } = req.body

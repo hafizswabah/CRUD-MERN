@@ -55,7 +55,7 @@ function Home() {
               <MDBCardBody className='p-5'>
                 <div className="profile-area">
                   <div className="profilepic">
-                    <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80" alt=""
+                    <img src={"http://localhost:8888/uploads/"+user.details.profile } alt=""
                       className='profileimg' />
                   </div>
                   <div className='edit-prodile'>

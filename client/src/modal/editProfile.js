@@ -19,9 +19,10 @@ function EditProfile({open,setOpen,id}) {
 async function handleSubmit(){
     let {data}=await axios.post('http://localhost:8888/edit-profile',{file,id},{
         headers:{
-            'Content-Type':'multypart/form-data'
+            'Content-Type':'multipart/form-data'
         }
     })
+    console.log(data);
     if(data.error){
         setErrMessage(data.error)
     }else{
