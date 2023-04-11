@@ -9,7 +9,8 @@ function AdminHeader({search, setSearch}) {
   async function logout(){
     if(window.confirm("are you sure logout")){
 
-      await axios.get("http://localhost:8888/admin/logout");
+      let {data}=await axios.get("http://localhost:8888/admin/logout");
+      console.log('logout data',data)
       dispatch({type:"refresh"})
 
     }

@@ -27,7 +27,6 @@ function AdminLogin() {
         e.preventDefault()
         let { data } = await axios.post("http://localhost:8888/admin/login",
             { email, password })
-        console.log(data);
         if (!data.error) {
             dispatch({ type: "refresh" })
         } else {

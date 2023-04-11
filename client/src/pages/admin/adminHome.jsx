@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import AdminHeader from '../../component/AdminHeader.jsx';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Link } from 'react-router-dom';
 
 function AdminHome() {
     const [users, setUsers] = useState([])
@@ -17,10 +18,15 @@ function AdminHome() {
             setUsers(data.users)
         })()
     }, [search, refresh])
+    async function deleteUser(id){
+        if(window.confirm('are you sure about delete this user'))
+        await axios.post("http://localhost:8888/admin/delete-user",{id})
+        setRefreash(!refresh)
+    }
     return (
         <div>
             <AdminHeader setSearch={setSearch} search={search} />
-            {search}
+         
             <Container className='mt-5'>
                 <Table responsive="sm">
                     <thead>
@@ -49,11 +55,11 @@ function AdminHome() {
                                         title="Actions"
                                         className="mt-2"
                                     >
-                                        <Dropdown.Item href="#/action-1" active>
+                                        <Dropdown.Item href={"/admin/update-user/"+item._id} active>
+                                           
                                             update
                                         </Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item href="#/action-4">Delete</Dropdown.Item>
+                                        <Dropdown.Item onClick={()=>deleteUser(item._id)}>Delete</Dropdown.Item>
                                     </DropdownButton></td>
 
                                 </tr>

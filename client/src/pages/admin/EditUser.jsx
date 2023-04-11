@@ -1,0 +1,129 @@
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import axios, { Axios } from 'axios'
+import { useDispatch } from 'react-redux'
+import { useNavigate,useParams } from 'react-router-dom';
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBIcon
+}
+  from 'mdb-react-ui-kit';
+import { Container } from 'react-bootstrap'
+
+
+import { Link } from 'react-router-dom';
+
+
+function EditUser() {
+
+  const [name, setName] = useState('')
+  const [proffession, setProffession] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errMessage, setErrMessage] = useState(null)
+  const {id}=useParams()
+  const dispatch = useDispatch()
+  const navigate=useNavigate()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    let { data } = await axios.post('http://localhost:8888/admin/edit-user',
+      { name, email, password,proffession,id })
+    console.log(data);
+    if (!data.error) {
+    return navigate("/admin")
+    } else {
+      setErrMessage(data.message)
+    }
+  }
+  useEffect(()=>{
+    (async function(){
+      console.log(id)
+      let {data}=await axios.get('http://localhost:8888/admin/users'+id,);
+      console.log('useEffect :',data);
+    setName(data.name)
+    setEmail(data.email)
+    setProffession(data.proffession)
+    })()
+  },[])
+  return (
+
+    <MDBContainer fluid className='p-4 background-radial-gradient overflow-hidden'>
+      <Container>
+
+        <MDBRow>
+
+          <MDBCol md='6' className='text-center text-md-start d-flex flex-column justify-content-center'>
+
+            <h1 className="my-5 display-3 fw-bold ls-tight px-3" style={{ color: 'hsl(218, 81%, 95%)' }}>
+              Update User <br />
+           
+            </h1>
+
+          
+
+          </MDBCol>
+
+          <MDBCol md='6' className='position-relative'>
+
+            <div id="radius-shape-1" className="position-absolute rounded-circle shadow-5-strong"></div>
+            <div id="radius-shape-2" className="position-absolute shadow-5-strong"></div>
+
+            <MDBCard className='my-5 bg-glass'>
+              <MDBCardBody className='p-5'>
+
+
+
+                <MDBInput wrapperClass='mb-4' label='User Name' id='form3' type='text' onChange={(e)=>{setName(e.target.value)}} value={name}/>
+                <MDBInput wrapperClass='mb-4' label='Proffession' id='form3' type='text'  onChange={(e)=>{setProffession(e.target.value)}} value={proffession}/>
+                <MDBInput wrapperClass='mb-4' label='Email' id='form3' type='email' onChange={(e)=>{setEmail(e.target.value)}} value={email} />
+              
+
+                <div className='d-flex justify-content-center mb-4'>
+                  <p style={{ color: "red" }}>{errMessage}</p>
+                </div>
+
+                <MDBBtn onClick={handleSubmit} className='w-100 mb-4' size='md' style={{backgroundColor:'#870ccfd4'}}>Update</MDBBtn>
+
+                <div className="text-center">
+
+    
+
+                  <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
+                    <MDBIcon fab icon='facebook-f' size="sm" />
+                  </MDBBtn>
+
+                  <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
+                    <MDBIcon fab icon='twitter' size="sm" />
+                  </MDBBtn>
+
+                  <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
+                    <MDBIcon fab icon='google' size="sm" />
+                  </MDBBtn>
+
+                  <MDBBtn tag='a' color='none' className='mx-3' style={{ color: '#1266f1' }}>
+                    <MDBIcon fab icon='github' size="sm" />
+                  </MDBBtn>
+
+                </div>
+
+              </MDBCardBody>
+            </MDBCard>
+
+          </MDBCol>
+
+        </MDBRow>
+
+      </Container>
+    </MDBContainer>
+
+  );
+}
+
+export default EditUser;
